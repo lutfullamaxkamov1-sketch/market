@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<style>
+    body{
+        font-family: 'Inter', sans-serif;
+        background:#070707;
+    }
+
+    .title-font{
+        font-family: 'Playfair Display', serif;
+    }
+
+    .gold-text{
+        background: linear-gradient(to right,#f7d38a,#c8963e);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+    }
+
+    .glass{
+        background: rgba(255,255,255,0.03);
+        backdrop-filter: blur(10px);
+        border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .card-hover{
+        transition:0.3s;
+    }
+
+    .card-hover:hover{
+        transform: translateY(-5px);
+        border-color:#d4a54a;
+    }
+
+</style>
+
+<div class="min-h-screen bg-[#070707] text-white">
+    <nav class="w-full border-b border-[#2b2b2b] bg-[#0a0a0a] sticky top-0 z-50">
+        <div class="max-w-[1600px] mx-auto px-8 py-5 flex items-center justify-between">
+
+            <h1 class="title-font text-[40px] gold-text font-bold">
+                Toy Sayti
+            </h1>
+
+            <div class="hidden lg:flex items-center gap-12 text-[17px] font-medium">
+
+                <a href="#" class="hover:text-[#d4a54a] duration-300">
+                    Bosh sahifa
+                </a>
+
+                <a href="#" class="hover:text-[#d4a54a] duration-300">
+                    Kelin liboslari
+                </a>
+
+                <a href="#" class="text-[#d4a54a] border-b border-[#d4a54a] pb-1">
+                    Kiyov kostyumlari
+                </a>
+
+                <a href="#" class="hover:text-[#d4a54a] duration-300">
+                    Aksessuarlar
+                </a>
+
+                <a href="#" class="hover:text-[#d4a54a] duration-300">
+                    Galereya
+                </a>
+
+                <a href="#" class="hover:text-[#d4a54a] duration-300">
+                    Bog'lanish
+                </a>
+
+            </div>
+
+            <button class="bg-[#d4a54a] hover:bg-[#e4b559] duration-300 text-black font-semibold px-7 py-3 rounded-xl">
+                <i class="fa-solid fa-phone mr-2"></i>
+                Biz bilan bog'lanish
+            </button>
+
+        </div>
+    </nav>
+
+    <div class="text-center pt-16 pb-10 px-5">
+
+        <div class="flex items-center justify-center gap-4 mb-5">
+            <div class="w-[80px] h-[1px] bg-[#c99743]"></div>
+
+            <i class="fa-solid fa-user-tie text-[#d4a54a] text-[28px]"></i>
+
+            <div class="w-[80px] h-[1px] bg-[#c99743]"></div>
+        </div>
+
+        <h1 class="title-font text-[70px] font-bold">
+            KIYOV
+            <span class="gold-text">
+                KOSTYUMLARI
+            </span>
+        </h1>
+
+        <p class="text-[#b9b9b9] mt-5 text-[18px]">
+            Eng sifatli va zamonaviy kostyumlar to‘yingiz uchun
+        </p>
+
+    </div>
+    <div class="max-w-[1650px] mx-auto px-6 pb-20">
+
+        <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-12 lg:col-span-2">
+
+                <div class="glass rounded-3xl p-6 sticky top-5">
+
+                    <h2 class="text-[22px] font-bold mb-6">
+                        KATEGORIYA
+                    </h2>
+
+                    <div class="space-y-4">
+
+                        <button class="w-full h-[55px] rounded-xl border border-[#d4a54a] bg-[#1a1409] text-[#f5cb7f] text-left px-5">
+                            <i class="fa-solid fa-layer-group mr-3"></i>
+                            Barcha kostyumlar
+                        </button>
+
+                        <button class="w-full h-[55px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a] duration-300 text-left px-5">
+                            Classic
+                        </button>
+
+                        <button class="w-full h-[55px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a] duration-300 text-left px-5">
+                            Modern
+                        </button>
+
+                        <button class="w-full h-[55px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a] duration-300 text-left px-5">
+                            Luxury
+                        </button>
+
+                        <button class="w-full h-[55px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a] duration-300 text-left px-5">
+                            Slim fit
+                        </button>
+
+                    </div>
+                    <div class="mt-10">
+
+                        <h3 class="font-semibold mb-5 text-[18px]">
+                            RANGLAR
+                        </h3>
+
+                        <div class="flex items-center gap-4">
+
+                            <div class="w-9 h-9 rounded-full bg-black border border-white"></div>
+
+                            <div class="w-9 h-9 rounded-full bg-blue-900"></div>
+
+                            <div class="w-9 h-9 rounded-full bg-gray-400"></div>
+
+                            <div class="w-9 h-9 rounded-full bg-[#f3e6d0]"></div>
+
+                            <div class="w-9 h-9 rounded-full bg-[#7a4d2a]"></div>
+
+                        </div>
+
+                    </div>
+                    <div class="mt-10">
+
+                        <h3 class="font-semibold mb-5 text-[18px]">
+                            O'lchami
+                        </h3>
+
+                        <div class="grid grid-cols-3 gap-3">
+
+                            <button class="h-[48px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a]">
+                                XS
+                            </button>
+
+                            <button class="h-[48px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a]">
+                                S
+                            </button>
+
+                            <button class="h-[48px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a]">
+                                M
+                            </button>
+
+                            <button class="h-[48px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a]">
+                                L
+                            </button>
+
+                            <button class="h-[48px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a]">
+                                XL
+                            </button>
+
+                            <button class="h-[48px] rounded-xl border border-[#2d2d2d] hover:border-[#d4a54a]">
+                                XXL
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button class="w-full h-[58px] mt-10 rounded-2xl bg-[#d4a54a] hover:bg-[#e5b860] duration-300 text-black font-bold">
+                        <i class="fa-solid fa-filter mr-2"></i>
+                        Filtrni qo'llash
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="col-span-12 lg:col-span-5">
+
+                <div class="flex items-center justify-between mb-6">
+
+                    <h2 class="text-[28px] font-bold">
+                        Barcha kostyumlar
+                    </h2>
+
+                    <select class="bg-[#121212] border border-[#2d2d2d] rounded-xl px-5 h-[50px] outline-none">
+                        <option>Yangilari avval</option>
+                        <option>Qimmatlari</option>
+                        <option>Arzonlari</option>
+                    </select>
+
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                    <div class="glass rounded-3xl overflow-hidden card-hover">
+
+                        <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1200&auto=format&fit=crop"
+                             class="w-full h-[320px] object-cover">
+
+                        <div class="p-5">
+
+                            <h3 class="text-[22px] font-bold mb-2">
+                                Classic Black
+                            </h3>
+
+                            <p class="text-[#d4a54a] text-[20px] font-semibold">
+                                2 500 000 so'm
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="glass rounded-3xl overflow-hidden card-hover">
+
+                        <img src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=1200&auto=format&fit=crop"
+                             class="w-full h-[320px] object-cover">
+
+                        <div class="p-5">
+
+                            <h3 class="text-[22px] font-bold mb-2">
+                                Royal Blue
+                            </h3>
+
+                            <p class="text-[#d4a54a] text-[20px] font-semibold">
+                                2 300 000 so'm
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="glass rounded-3xl overflow-hidden card-hover">
+
+                        <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=1200&auto=format&fit=crop"
+                             class="w-full h-[320px] object-cover">
+
+                        <div class="p-5">
+
+                            <h3 class="text-[22px] font-bold mb-2">
+                                Light Gray
+                            </h3>
+
+                            <p class="text-[#d4a54a] text-[20px] font-semibold">
+                                2 100 000 so'm
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-span-12 lg:col-span-5">
+
+                <div class="glass rounded-3xl p-5">
+
+                    <img src="https://images.unsplash.com/photo-1598808503746-f34cfb7df0f2?q=80&w=1200&auto=format&fit=crop"
+                         class="w-full h-[520px] rounded-3xl object-cover">
+
+                    <div class="flex items-center gap-4 mt-5">
+
+                        <img src="https://images.unsplash.com/photo-1598808503746-f34cfb7df0f2?q=80&w=1200&auto=format&fit=crop"
+                             class="w-[90px] h-[90px] rounded-2xl object-cover border-2 border-[#d4a54a]">
+
+                        <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=1200&auto=format&fit=crop"
+                             class="w-[90px] h-[90px] rounded-2xl object-cover">
+
+                        <img src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=1200&auto=format&fit=crop"
+                             class="w-[90px] h-[90px] rounded-2xl object-cover">
+
+                    </div>
+                    <div class="mt-8">
+
+                        <div class="flex items-center justify-between">
+
+                            <h1 class="title-font text-[50px] font-bold">
+                                Classic Black
+                            </h1>
+
+                            <div class="bg-[#1a1409] border border-[#d4a54a] px-5 py-2 rounded-full text-[#f0c476]">
+                                Premium
+                            </div>
+
+                        </div>
+
+                        <p class="text-[#d4a54a] text-[35px] font-bold mt-3">
+                            2 500 000 so'm
+                        </p>
+
+                        <p class="text-[#bcbcbc] mt-5 leading-[32px] text-[17px]">
+                            Zamonaviy kesimdagi klassik qora kostyum.
+                            To‘y marosimi uchun eng yaxshi tanlov.
+                        </p>
+                        <div class="mt-8 space-y-5 text-[17px]">
+
+                            <div class="flex items-center gap-4">
+                                <i class="fa-solid fa-shirt text-[#d4a54a]"></i>
+                                <span>Mato:</span>
+                                <span class="text-[#d4a54a]">
+                                    Italy Premium
+                                </span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <i class="fa-solid fa-gem text-[#d4a54a]"></i>
+                                <span>Tarkibi:</span>
+                                <span class="text-[#d4a54a]">
+                                    70% Wool, 30% Silk
+                                </span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <i class="fa-solid fa-star text-[#d4a54a]"></i>
+                                <span>Mavsum:</span>
+                                <span class="text-[#d4a54a]">
+                                    To'rt fasl uchun
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <button onclick="addToCart({
+    name: 'Classic Black',
+    price: '2 500 000 so\'m',
+    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1200&auto=format&fit=crop'
+})"
+class="h-[60px] rounded-2xl bg-[#d4a54a] hover:bg-[#e6b861] duration-300 text-black font-bold text-[18px]">
+    <i class="fa-solid fa-cart-shopping mr-2"></i>
+    Buyurtma berish
+</button>
+
+                            <button class="h-[60px] rounded-2xl border border-[#2d2d2d] hover:border-[#d4a54a] duration-300 text-[18px]">
+                                Batafsil ma'lumot
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="border-t border-[#1f1f1f] py-10">
+
+        <div class="max-w-[1500px] mx-auto px-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+            <div class="glass rounded-3xl p-6 flex items-center gap-5">
+
+                <div class="w-[60px] h-[60px] rounded-full bg-[#1a1409] flex items-center justify-center">
+                    <i class="fa-solid fa-truck text-[#d4a54a] text-[22px]"></i>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-[20px]">
+                        Bepul yetkazib berish
+                    </h3>
+
+                    <p class="text-[#b9b9b9] mt-1">
+                        Toshkent shahri bo'ylab
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="glass rounded-3xl p-6 flex items-center gap-5">
+
+                <div class="w-[60px] h-[60px] rounded-full bg-[#1a1409] flex items-center justify-center">
+                    <i class="fa-solid fa-ruler text-[#d4a54a] text-[22px]"></i>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-[20px]">
+                        O'lchov bepul
+                    </h3>
+
+                    <p class="text-[#b9b9b9] mt-1">
+                        Uyingizga kelib o'lchab ketamiz
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="glass rounded-3xl p-6 flex items-center gap-5">
+
+                <div class="w-[60px] h-[60px] rounded-full bg-[#1a1409] flex items-center justify-center">
+                    <i class="fa-solid fa-shield text-[#d4a54a] text-[22px]"></i>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-[20px]">
+                        Sifat kafolati
+                    </h3>
+
+                    <p class="text-[#b9b9b9] mt-1">
+                        100% original matolar
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="glass rounded-3xl p-6 flex items-center gap-5">
+
+                <div class="w-[60px] h-[60px] rounded-full bg-[#1a1409] flex items-center justify-center">
+                    <i class="fa-solid fa-rotate-left text-[#d4a54a] text-[22px]"></i>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-[20px]">
+                        Qaytarish imkoni
+                    </h3>
+
+                    <p class="text-[#b9b9b9] mt-1">
+                        3 kun ichida qaytarish
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+    <script>
+let cart = [];
+
+function addToCart(product) {
+    cart.push(product);
+    updateCart();
+}
+
+function updateCart() {
+    ...
+}
+</script>
+</div>
+
+{% endblock %}

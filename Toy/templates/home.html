@@ -1,0 +1,632 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f7f4ef;
+    }
+    .playfair { font-family: 'Playfair Display', serif; }
+    .shadow-soft { box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+    .category-card:hover { transform: translateY(-3px); transition: .2s; }
+    .product-card:hover img { transform: scale(1.04); }
+
+    /* ── MOBILE only ── */
+    @media (max-width: 767px) {
+        body { padding-bottom: 68px; }
+
+        /* Desktop nav yashirin */
+        .desktop-only { display: none !important; }
+
+        /* Mobile topbar ko'rinadi */
+        .mobile-topbar { display: flex !important; }
+
+        /* Mobile qidiruv ko'rinadi */
+        .mobile-search-bar { display: block !important; }
+
+        /* Bottom nav ko'rinadi */
+        .bottom-nav { display: flex !important; }
+
+        /* Katalog fullscreen ochiladi */
+        #catalogMenu {
+            position: fixed !important;
+            top: 0 !important; left: 0 !important;
+            right: 0 !important; bottom: 0 !important;
+            width: 100% !important;
+            border-radius: 0 !important;
+            overflow-y: auto;
+            z-index: 9999 !important;
+        }
+
+        /* Cart drawer pastdan */
+        #cartMenu {
+            position: fixed !important;
+            bottom: 68px !important; left: 8px !important; right: 8px !important;
+            top: auto !important; width: auto !important;
+        }
+
+        /* Hero matn kichik */
+        .hero-title { font-size: 30px !important; }
+
+        /* Mahsulotlar 2 ustun */
+        .products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+
+        /* Katogoriyalar 5 ustun, kichik */
+        .cats-grid {
+            grid-template-columns: repeat(5, 1fr) !important;
+            gap: 6px !important;
+        }
+        .cat-card { height: 76px !important; border-radius: 12px !important; }
+        .cat-card span { font-size: 9px !important; line-height: 1.2; text-align: center; padding: 0 2px; }
+        .cat-card i { font-size: 17px !important; }
+
+        /* Features 2 ustun */
+        .features-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+        .feature-card { padding: 12px !important; }
+        .feature-icon { width: 36px !important; height: 36px !important; font-size: 15px !important; }
+        .feature-title { font-size: 12px !important; }
+        .feature-desc { font-size: 11px !important; }
+
+        /* Product card image kichik */
+        .product-img { height: 155px !important; }
+        .product-title { font-size: 13px !important; }
+        .product-price { font-size: 14px !important; }
+        .product-meta { font-size: 11px !important; }
+        .product-padding { padding: 10px !important; }
+    }
+
+    /* ── DESKTOP only ── */
+    @media (min-width: 768px) {
+        .mobile-topbar { display: none !important; }
+        .mobile-search-bar { display: none !important; }
+        .bottom-nav { display: none !important; }
+        .mobile-catalog-menu { display: none !important; }
+    }
+
+    /* ── MOBILE TOPBAR ── */
+    .mobile-topbar {
+        display: none;
+        position: sticky; top: 0; z-index: 200;
+        background: #fff;
+        border-bottom: 1px solid #ece4da;
+        padding: 10px 14px;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* ── MOBILE SEARCH BAR ── */
+    .mobile-search-bar {
+        display: none;
+        background: #fff;
+        padding: 8px 14px 12px;
+        border-bottom: 1px solid #ece4da;
+    }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+        display: none;
+        position: fixed; bottom: 0; left: 0; right: 0;
+        height: 64px;
+        background: #fff;
+        border-top: 1px solid #ece4da;
+        z-index: 500;
+        box-shadow: 0 -4px 16px rgba(0,0,0,0.07);
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 4px;
+    }
+    .bnav-item {
+        display: flex; flex-direction: column;
+        align-items: center; gap: 3px;
+        flex: 1; padding: 8px 4px;
+        cursor: pointer; border-radius: 10px;
+        position: relative;
+    }
+    .bnav-item i { font-size: 19px; color: #aaa; }
+    .bnav-item span { font-size: 9.5px; color: #aaa; font-weight: 500; }
+    .bnav-item.active i, .bnav-item.active span { color: #d1a24c; }
+    .bnav-badge {
+        position: absolute; top: 5px; right: 16px;
+        width: 15px; height: 15px; border-radius: 50%;
+        background: #d1a24c; color: #fff;
+        font-size: 8px; font-weight: 700;
+        display: none; align-items: center; justify-content: center;
+    }
+
+    /* Catalog mobile header sticky */
+    .catalog-mob-header {
+        position: sticky; top: 0;
+        background: #fff;
+        border-bottom: 1px solid #ece4da;
+        padding: 14px 16px;
+        display: flex; align-items: center; justify-content: space-between;
+        z-index: 1;
+    }
+</style>
+<div class="mobile-topbar">
+    <a href="#" class="flex items-center gap-2">
+        <i class="fa-regular fa-heart text-[#d1a24c]"></i>
+        <span class="playfair text-[22px] font-bold">
+            <span class="text-[#d1a24c]">To'y</span><span class="text-[#2e2e2e]">Market</span>
+        </span>
+    </a>
+    <div class="flex items-center gap-3">
+        <div class="relative">
+            <div id="regionBtnM" class="flex items-center gap-1 text-[13px] font-medium text-[#2d2d2d] cursor-pointer">
+                <i class="fa-solid fa-location-dot text-[#d1a24c] text-[12px]"></i>
+                <span id="selectedRegionM">Toshkent</span>
+            </div>
+            <div id="regionMenuM" class="hidden absolute top-[28px] right-0 w-[175px] bg-white border border-[#ece4da] rounded-[12px] shadow-lg z-50 max-h-[55vh] overflow-y-auto">
+                <div class="py-1 text-[13px] text-[#2d2d2d]">
+                    {% for r in "Toshkent,Andijon,Namangan,Farg'ona,Samarqand,Buxoro,Navoiy,Qashqadaryo,Surxondaryo,Jizzax,Sirdaryo,Xorazm,Qoraqalpog'iston"|split:"," %}
+                    <div class="px-3 py-[9px] hover:bg-[#f7f4ef] cursor-pointer region-item-m">{{ r }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="w-[32px] h-[32px] rounded-full bg-[#d1a24c] text-white flex items-center justify-center font-bold text-[13px]">
+            {{ user.username|first|upper }}
+        </div>
+        {% else %}
+        <a href="{% url 'Kirish' %}">
+            <button class="h-[32px] px-3 rounded-[9px] bg-[#d1a24c] text-white font-semibold text-[12px]">Kirish</button>
+        </a>
+        {% endif %}
+    </div>
+</div>
+<div class="mobile-search-bar">
+    <div class="relative">
+        <input id="searchInputM" type="text"
+            placeholder="Mahsulot yoki xizmat qidirish..."
+            class="w-full h-[40px] rounded-[11px] border border-[#ebe4da] bg-[#faf8f5] px-4 pr-10 outline-none text-[13px]">
+        <button class="absolute right-2 top-1/2 -translate-y-1/2 w-[28px] h-[28px] rounded-[8px] bg-white border border-[#ece4da] text-[#666]">
+            <i class="fa-solid fa-magnifying-glass text-[12px]"></i>
+        </button>
+    </div>
+</div>
+
+<div class="w-full min-h-screen bg-[#f7f4ef] px-4 md:px-5 py-4">
+    <nav class="desktop-only w-full h-auto lg:h-[70px] bg-white border border-[#ece4da] rounded-[18px] px-4 lg:px-6 py-4 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-soft">
+        <div class="flex items-center gap-4">
+            <a href="#" class="flex items-center gap-2">
+                <i class="fa-regular fa-heart text-[#d1a24c] text-[18px]"></i>
+                <h1 class="playfair text-[28px] font-bold">
+                    <span class="text-[#d1a24c]">To'y</span><span class="text-[#2e2e2e]">Market</span>
+                </h1>
+            </a>
+            <div class="relative">
+                <button id="catalogBtn"
+                    class="h-[44px] px-5 rounded-[16px] bg-[#f8f2e7] text-[#c89d4d] font-semibold text-[14px] flex items-center gap-2 border border-[#efe5d3] hover:bg-[#f2e7d3] duration-300 shadow-sm">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                    <span>Katalog</span>
+                    <i id="catalogIcon" class="fa-solid fa-chevron-down text-[10px] duration-300"></i>
+                </button>
+                <div id="catalogMenu"
+                     class="hidden absolute left-0 top-[60px] w-[1120px] bg-white rounded-[30px] border border-[#ece4da] shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-7 z-50">
+                    <div class="flex items-center justify-between mb-7">
+                        <div>
+                            <h2 class="text-[26px] font-bold text-[#2d2d2d]">To'y Katalogi</h2>
+                            <p class="text-[14px] text-[#8a8177] mt-1">To'yingiz uchun barcha xizmatlar bir joyda</p>
+                        </div>
+                        <button id="closeCatalog" class="w-[40px] h-[40px] rounded-full bg-[#f8f4ee] hover:bg-[#efe7dc] duration-200">
+                            <i class="fa-solid fa-xmark text-[#666]"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-4 gap-5">
+                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                            <img src="https://images.unsplash.com/photo-1525258946800-98cfd641d0de?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
+                            <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">Kelinlik liboslari</h3><p class="text-[13px] text-[#888] mt-1">Premium bridal kolleksiya</p></div>
+                            <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+                        </a>
+                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                            <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
+                            <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">Kiyov kostyumlari</h3><p class="text-[13px] text-[#888] mt-1">Klassik va zamonaviy</p></div>
+                            <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+                        </a>
+                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
+                            <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">Mebel & Dekor</h3><p class="text-[13px] text-[#888] mt-1">Stol, stul va dekorlar</p></div>
+                            <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+                        </a>
+                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                            <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
+                            <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">Sarpo to'plami</h3><p class="text-[13px] text-[#888] mt-1">Full wedding set</p></div>
+                            <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+                        </a>
+                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
+                            <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">To'y zallari</h3><p class="text-[13px] text-[#888] mt-1">Eng zo'r wedding hall</p></div>
+                            <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+                        </a>
+                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
+                            <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">Mashina bezak</h3><p class="text-[13px] text-[#888] mt-1">Luxury car design</p></div>
+                            <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+                        </a>
+                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
+                            <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">Karnay-surnay</h3><p class="text-[13px] text-[#888] mt-1">Milliy musiqa xizmatlari</p></div>
+                            <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+                        </a>
+                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
+                            <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">Foto & Video</h3><p class="text-[13px] text-[#888] mt-1">Professional media team</p></div>
+                            <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 max-w-[520px] relative">
+            <input id="searchInput" type="text"
+                placeholder="Mahsulot, kategoriya yoki do'kon qidirish..."
+                class="w-full h-[42px] rounded-[12px] border border-[#ebe4da] bg-[#faf8f5] px-4 pr-12 outline-none text-[14px]">
+            <button class="absolute right-2 top-1/2 -translate-y-1/2 w-[32px] h-[32px] rounded-[10px] bg-white border border-[#ece4da] text-[#666]">
+                <i class="fa-solid fa-magnifying-glass text-[13px]"></i>
+            </button>
+        </div>
+        <div class="flex items-center gap-5 flex-wrap">
+            <div class="relative">
+                <div id="regionBtn" class="flex items-center gap-2 text-[14px] font-medium text-[#2d2d2d] cursor-pointer">
+                    <i class="fa-solid fa-location-dot text-[#d1a24c]"></i>
+                    <span id="selectedRegion">Toshkent</span>
+                    <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                </div>
+                <div id="regionMenu" class="hidden absolute top-[35px] left-0 w-[180px] bg-white border border-[#ece4da] rounded-[12px] shadow-lg z-50">
+                    <div class="py-2 text-[13px] text-[#2d2d2d]">
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Toshkent</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Andijon</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Namangan</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Farg'ona</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Samarqand</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Buxoro</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Navoiy</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Qashqadaryo</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Surxondaryo</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Jizzax</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Sirdaryo</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Xorazm</div>
+                        <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Qoraqalpog'iston</div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" class="flex items-center gap-2 text-[14px] font-medium text-[#2d2d2d]">
+                <i class="fa-regular fa-heart"></i>
+                <span>Sevimlilar</span>
+            </a>
+            <div class="relative">
+                <button id="cartBtn" class="text-[#2d2d2d] text-[18px] relative">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <div id="cartCount" class="absolute -top-2 -right-2 w-[18px] h-[18px] rounded-full bg-[#d1a24c] text-white text-[10px] font-bold flex items-center justify-center hidden">0</div>
+                </button>
+                <div id="cartMenu" class="hidden absolute right-0 top-[45px] w-[320px] bg-white rounded-[20px] border border-[#ece4da] shadow-xl p-4 z-50">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-[18px] text-[#2d2d2d]">Savatcha</h3>
+                        <span id="cartItemsCount" class="text-[13px] text-[#888]">0 ta mahsulot</span>
+                    </div>
+                    <div id="cartItems" class="space-y-3 max-h-[300px] overflow-auto">
+                        <p class="text-[#888] text-[14px] text-center py-5">Savatcha bo'sh</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if user.is_authenticated %}
+            <div class="flex items-center gap-3">
+                <div class="w-[42px] h-[42px] rounded-full bg-[#d1a24c] text-white flex items-center justify-center font-bold">{{ user.username|first|upper }}</div>
+                <div class="hidden sm:block">
+                    <p class="text-[13px] text-[#888]">Xush kelibsiz</p>
+                    <h4 class="text-[14px] font-semibold text-[#2d2d2d]">{{ user.username }}</h4>
+                    <a href="{% url 'logout' %}" class="text-red-500 text-sm hover:underline">Chiqish</a>
+                </div>
+            </div>
+            {% else %}
+            <a href="{% url 'Kirish' %}">
+                <button class="h-[42px] px-5 rounded-[12px] bg-[#d1a24c] text-white font-semibold text-[14px]">
+                    Kirish / Ro'yxatdan o'tish
+                </button>
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section class="w-full mt-0 md:mt-5 rounded-[0px] md:rounded-[22px] overflow-hidden relative bg-[#efe7de] shadow-soft">
+        <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
+            <div class="px-5 md:px-10 py-7 md:py-10">
+                <h1 class="hero-title playfair text-[38px] md:text-[58px] leading-[1.05] font-bold text-[#2e2e2e]">
+                    To'yingiz uchun<br>
+                    <span class="text-[#d1a24c]">hamma narsa!</span>
+                </h1>
+                <p class="mt-4 text-[13px] md:text-[15px] leading-[26px] text-[#6d655d] max-w-[450px]">
+                    Mebel, sarpo, kiyim-kechak, zallar va boshqa xizmatlarni bir joyda toping va buyurtma qiling.
+                </p>
+                <div class="mt-6 hidden md:flex flex-col sm:flex-row gap-3 max-w-[520px]">
+                    <input type="text" placeholder="Mahsulot yoki xizmat qidiring..."
+                        class="flex-1 h-[50px] rounded-[14px] bg-white border border-[#ece4da] px-4 outline-none text-[14px]">
+                    <button class="sm:w-[130px] h-[50px] rounded-[14px] bg-[#d1a24c] text-white font-semibold text-[15px]">Qidirish</button>
+                </div>
+            </div>
+            <div class="h-[200px] md:h-[380px]">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1600&auto=format&fit=crop"
+                    class="w-full h-full object-cover">
+            </div>
+        </div>
+    </section>
+    <div class="cats-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-4 mt-5">
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-shirt text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Kelin liboslari</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-user-tie text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Kuyov kostyumlari</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-couch text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Mebel</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-gift text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Sarpo</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-building-columns text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Zallar</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-camera text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Foto & Video</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-car-side text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Mashina bezak</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-utensils text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Catering</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-wand-magic-sparkles text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Gul & Dekor</span></div>
+        <div class="cat-card category-card bg-white border border-[#ece4da] rounded-[18px] h-[105px] flex flex-col items-center justify-center gap-3 shadow-soft cursor-pointer"><i class="fa-solid fa-ring text-[#c89d4d] text-[24px]"></i><span class="text-[13px] font-medium text-[#4b4b4b]">Karnay-surnay</span></div>
+    </div>
+    <section class="mt-7 search-section">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="playfair text-[22px] md:text-[32px] font-bold text-[#2f2f2f]">Mashhur mahsulotlar</h2>
+            <button class="text-[#9f7b3f] font-medium text-[13px] md:text-[14px] flex items-center gap-2">
+                Barchasini ko'rish <i class="fa-solid fa-chevron-right text-[11px]"></i>
+            </button>
+        </div>
+        <div class="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            {% for product in products %}
+            <a href="{% url 'bos' %}">
+                <div class="search-item product-card bg-white rounded-[18px] overflow-hidden border border-[#ece4da] shadow-soft">
+                    <div class="relative overflow-hidden">
+                        <img src="{{ product.image.url }}" class="product-img w-full h-[220px] object-cover duration-300">
+                        {% if product.top %}
+                        <div class="absolute top-3 left-3 bg-[#d1a24c] text-white text-[11px] font-bold px-3 py-1 rounded-full">TOP</div>
+                        {% endif %}
+                        {% if product.new %}
+                        <div class="absolute top-3 left-3 bg-[#efb53f] text-white text-[11px] font-bold px-3 py-1 rounded-full">NEW</div>
+                        {% endif %}
+                        <button class="absolute top-3 right-3 w-[34px] h-[34px] rounded-full bg-white/90 text-[#444]">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-padding p-4">
+                        <h3 class="product-title font-semibold text-[16px] text-[#2d2d2d] line-clamp-1">{{ product.title }}</h3>
+                        <p class="product-price mt-2 text-[#d1a24c] font-bold text-[18px]">{{ product.price }}</p>
+                        <div class="product-meta mt-3 flex items-center justify-between text-[13px] text-[#777]">
+                            <span class="truncate max-w-[110px]">Sotuvchi: {{ product.seller }}</span>
+                            <div class="flex items-center gap-1 text-[#d1a24c]">
+                                <i class="fa-solid fa-star text-[11px]"></i>
+                                <span>{{ product.rating }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    <div class="features-grid grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
+        <div class="feature-card bg-white border border-[#ece4da] rounded-[18px] p-5 flex items-start gap-4 shadow-soft">
+            <div class="feature-icon w-[48px] h-[48px] rounded-[14px] bg-[#f7f1e5] flex items-center justify-center text-[#c89d4d] text-[20px] flex-shrink-0"><i class="fa-solid fa-shield-heart"></i></div>
+            <div><h4 class="feature-title font-semibold text-[#2d2d2d]">Ishonchli sotuvchilar</h4><p class="feature-desc text-[13px] text-[#777] mt-1">Barcha sotuvchilar tekshirilgan</p></div>
+        </div>
+        <div class="feature-card bg-white border border-[#ece4da] rounded-[18px] p-5 flex items-start gap-4 shadow-soft">
+            <div class="feature-icon w-[48px] h-[48px] rounded-[14px] bg-[#f7f1e5] flex items-center justify-center text-[#c89d4d] text-[20px] flex-shrink-0"><i class="fa-solid fa-wallet"></i></div>
+            <div><h4 class="feature-title font-semibold text-[#2d2d2d]">Xavfsiz to'lov</h4><p class="feature-desc text-[13px] text-[#777] mt-1">Himoyalangan to'lov tizimi</p></div>
+        </div>
+        <div class="feature-card bg-white border border-[#ece4da] rounded-[18px] p-5 flex items-start gap-4 shadow-soft">
+            <div class="feature-icon w-[48px] h-[48px] rounded-[14px] bg-[#f7f1e5] flex items-center justify-center text-[#c89d4d] text-[20px] flex-shrink-0"><i class="fa-solid fa-headset"></i></div>
+            <div><h4 class="feature-title font-semibold text-[#2d2d2d]">24/7 qo'llab-quvvatlash</h4><p class="feature-desc text-[13px] text-[#777] mt-1">Har doim siz bilan aloqadamiz</p></div>
+        </div>
+        <div class="feature-card bg-white border border-[#ece4da] rounded-[18px] p-5 flex items-start gap-4 shadow-soft">
+            <div class="feature-icon w-[48px] h-[48px] rounded-[14px] bg-[#f7f1e5] flex items-center justify-center text-[#c89d4d] text-[20px] flex-shrink-0"><i class="fa-solid fa-truck-fast"></i></div>
+            <div><h4 class="feature-title font-semibold text-[#2d2d2d]">Tez yetkazib berish</h4><p class="feature-desc text-[13px] text-[#777] mt-1">Qulay va tez yetkazish xizmati</p></div>
+        </div>
+    </div>
+
+</div><!-- /main wrapper -->
+
+<nav class="bottom-nav">
+    <div class="bnav-item active" id="bnavHome">
+        <i class="fa-solid fa-house"></i>
+        <span>Asosiy</span>
+    </div>
+    <div class="bnav-item" id="bnavCatalog">
+        <i class="fa-solid fa-bars-staggered"></i>
+        <span>Katalog</span>
+    </div>
+    <a href="#" class="bnav-item">
+        <i class="fa-regular fa-heart"></i>
+        <span>Sevimlilar</span>
+    </a>
+    <div class="bnav-item" id="bnavCart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <div class="bnav-badge" id="bnavCartBadge">0</div>
+        <span>Savat</span>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="bnav-item" id="bnavProfile">
+        <i class="fa-regular fa-circle-user"></i>
+        <span>Profil</span>
+    </div>
+    {% else %}
+    <a href="{% url 'Kirish' %}" class="bnav-item">
+        <i class="fa-regular fa-user"></i>
+        <span>Kirish</span>
+    </a>
+    {% endif %}
+</nav>
+<div id="mobileCatalogMenu" class="hidden fixed inset-0 bg-white z-[9999] overflow-y-auto">
+    <div class="catalog-mob-header">
+        <h2 class="text-[19px] font-bold text-[#2d2d2d]">To'y Katalogi</h2>
+        <button id="closeMobileCatalog" class="w-[38px] h-[38px] rounded-full bg-[#f8f4ee] flex items-center justify-center">
+            <i class="fa-solid fa-xmark text-[#555]"></i>
+        </button>
+    </div>
+    <div class="p-4 space-y-3">
+        <a href="#" class="flex items-center gap-4 p-4 rounded-[18px] border border-[#ece4da] bg-[#faf6ef]"><img src="https://images.unsplash.com/photo-1525258946800-98cfd641d0de?q=80&w=400&auto=format&fit=crop" class="w-[58px] h-[58px] rounded-[14px] object-cover"><div class="flex-1"><h3 class="font-semibold text-[#2d2d2d]">Kelinlik liboslari</h3><p class="text-[12px] text-[#888] mt-0.5">Premium bridal kolleksiya</p></div><i class="fa-solid fa-chevron-right text-[#bbb]"></i></a>
+        <a href="#" class="flex items-center gap-4 p-4 rounded-[18px] border border-[#ece4da] bg-[#faf6ef]"><img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=400&auto=format&fit=crop" class="w-[58px] h-[58px] rounded-[14px] object-cover"><div class="flex-1"><h3 class="font-semibold text-[#2d2d2d]">Kiyov kostyumlari</h3><p class="text-[12px] text-[#888] mt-0.5">Klassik va zamonaviy</p></div><i class="fa-solid fa-chevron-right text-[#bbb]"></i></a>
+        <a href="#" class="flex items-center gap-4 p-4 rounded-[18px] border border-[#ece4da] bg-[#faf6ef]"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=400&auto=format&fit=crop" class="w-[58px] h-[58px] rounded-[14px] object-cover"><div class="flex-1"><h3 class="font-semibold text-[#2d2d2d]">Mebel & Dekor</h3><p class="text-[12px] text-[#888] mt-0.5">Stol, stul va dekorlar</p></div><i class="fa-solid fa-chevron-right text-[#bbb]"></i></a>
+        <a href="#" class="flex items-center gap-4 p-4 rounded-[18px] border border-[#ece4da] bg-[#faf6ef]"><img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=400&auto=format&fit=crop" class="w-[58px] h-[58px] rounded-[14px] object-cover"><div class="flex-1"><h3 class="font-semibold text-[#2d2d2d]">Sarpo to'plami</h3><p class="text-[12px] text-[#888] mt-0.5">Full wedding set</p></div><i class="fa-solid fa-chevron-right text-[#bbb]"></i></a>
+        <a href="#" class="flex items-center gap-4 p-4 rounded-[18px] border border-[#ece4da] bg-[#faf6ef]"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=400&auto=format&fit=crop" class="w-[58px] h-[58px] rounded-[14px] object-cover"><div class="flex-1"><h3 class="font-semibold text-[#2d2d2d]">To'y zallari</h3><p class="text-[12px] text-[#888] mt-0.5">Eng zo'r wedding hall</p></div><i class="fa-solid fa-chevron-right text-[#bbb]"></i></a>
+        <a href="#" class="flex items-center gap-4 p-4 rounded-[18px] border border-[#ece4da] bg-[#faf6ef]"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400&auto=format&fit=crop" class="w-[58px] h-[58px] rounded-[14px] object-cover"><div class="flex-1"><h3 class="font-semibold text-[#2d2d2d]">Mashina bezak</h3><p class="text-[12px] text-[#888] mt-0.5">Luxury car design</p></div><i class="fa-solid fa-chevron-right text-[#bbb]"></i></a>
+        <a href="#" class="flex items-center gap-4 p-4 rounded-[18px] border border-[#ece4da] bg-[#faf6ef]"><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=400&auto=format&fit=crop" class="w-[58px] h-[58px] rounded-[14px] object-cover"><div class="flex-1"><h3 class="font-semibold text-[#2d2d2d]">Karnay-surnay</h3><p class="text-[12px] text-[#888] mt-0.5">Milliy musiqa xizmatlari</p></div><i class="fa-solid fa-chevron-right text-[#bbb]"></i></a>
+        <a href="#" class="flex items-center gap-4 p-4 rounded-[18px] border border-[#ece4da] bg-[#faf6ef]"><img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=400&auto=format&fit=crop" class="w-[58px] h-[58px] rounded-[14px] object-cover"><div class="flex-1"><h3 class="font-semibold text-[#2d2d2d]">Foto & Video</h3><p class="text-[12px] text-[#888] mt-0.5">Professional media team</p></div><i class="fa-solid fa-chevron-right text-[#bbb]"></i></a>
+    </div>
+</div>
+<div id="mobileCartMenu" class="hidden fixed left-3 right-3 bottom-[68px] bg-white rounded-[20px] border border-[#ece4da] shadow-xl p-4 z-[498]">
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-[17px] text-[#2d2d2d]">Savatcha</h3>
+        <span id="mCartCount" class="text-[13px] text-[#888]">0 ta mahsulot</span>
+    </div>
+    <div id="mCartItems" class="space-y-3 max-h-[260px] overflow-auto">
+        <p class="text-[#888] text-[14px] text-center py-5">Savatcha bo'sh</p>
+    </div>
+</div>
+
+<script>
+let cart = [];
+const regionBtn = document.getElementById("regionBtn");
+const regionMenu = document.getElementById("regionMenu");
+const selectedRegion = document.getElementById("selectedRegion");
+if (regionBtn) {
+    regionBtn.addEventListener("click", e => { e.stopPropagation(); regionMenu.classList.toggle("hidden"); });
+    document.querySelectorAll(".region-item").forEach(el => {
+        el.addEventListener("click", () => { selectedRegion.innerText = el.innerText; regionMenu.classList.add("hidden"); });
+    });
+}
+const regionBtnM = document.getElementById("regionBtnM");
+const regionMenuM = document.getElementById("regionMenuM");
+const selectedRegionM = document.getElementById("selectedRegionM");
+if (regionBtnM) {
+    regionBtnM.addEventListener("click", e => { e.stopPropagation(); regionMenuM.classList.toggle("hidden"); });
+    document.querySelectorAll(".region-item-m").forEach(el => {
+        el.addEventListener("click", () => { selectedRegionM.innerText = el.innerText; regionMenuM.classList.add("hidden"); });
+    });
+}
+const catalogBtn = document.getElementById("catalogBtn");
+const catalogMenu = document.getElementById("catalogMenu");
+const closeCatalog = document.getElementById("closeCatalog");
+const catalogIcon = document.getElementById("catalogIcon");
+if (catalogBtn) {
+    catalogBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        catalogMenu.classList.toggle("hidden");
+        catalogIcon.classList.toggle("rotate-180");
+    });
+    closeCatalog.addEventListener("click", () => {
+        catalogMenu.classList.add("hidden");
+        catalogIcon.classList.remove("rotate-180");
+    });
+}
+const cartBtn = document.getElementById("cartBtn");
+const cartMenu = document.getElementById("cartMenu");
+if (cartBtn) {
+    cartBtn.addEventListener("click", e => { e.stopPropagation(); cartMenu.classList.toggle("hidden"); });
+}
+const bnavHome    = document.getElementById("bnavHome");
+const bnavCatalog = document.getElementById("bnavCatalog");
+const bnavCart    = document.getElementById("bnavCart");
+const mobileCatalogMenu = document.getElementById("mobileCatalogMenu");
+const closeMobileCatalog = document.getElementById("closeMobileCatalog");
+const mobileCartMenu = document.getElementById("mobileCartMenu");
+
+function setActive(el) {
+    document.querySelectorAll(".bnav-item").forEach(i => i.classList.remove("active"));
+    if (el) el.classList.add("active");
+}
+
+if (bnavHome) {
+    bnavHome.addEventListener("click", () => {
+        setActive(bnavHome);
+        mobileCatalogMenu.classList.add("hidden");
+        mobileCartMenu.classList.add("hidden");
+    });
+}
+if (bnavCatalog) {
+    bnavCatalog.addEventListener("click", () => {
+        setActive(bnavCatalog);
+        mobileCartMenu.classList.add("hidden");
+        mobileCatalogMenu.classList.toggle("hidden");
+    });
+}
+if (closeMobileCatalog) {
+    closeMobileCatalog.addEventListener("click", () => {
+        mobileCatalogMenu.classList.add("hidden");
+        setActive(bnavHome);
+    });
+}
+if (bnavCart) {
+    bnavCart.addEventListener("click", e => {
+        e.stopPropagation();
+        setActive(bnavCart);
+        mobileCatalogMenu.classList.add("hidden");
+        mobileCartMenu.classList.toggle("hidden");
+    });
+}
+function cartItemHTML(item, i) {
+    return `<div class="flex items-center gap-3 border border-[#ece4da] rounded-[14px] p-2">
+        <img src="${item.image}" class="w-[52px] h-[52px] rounded-[11px] object-cover">
+        <div class="flex-1">
+            <h4 class="font-semibold text-[13px] text-[#2d2d2d]">${item.name}</h4>
+            <p class="text-[#d1a24c] font-bold text-[13px] mt-0.5">${item.price}</p>
+        </div>
+        <button onclick="removeItem(${i})" class="text-red-500 text-[13px]">✕</button>
+    </div>`;
+}
+function emptyHTML() { return `<p class="text-[#888] text-[14px] text-center py-5">Savatcha bo'sh</p>`; }
+
+function updateCart() {
+    const n = cart.length;
+    const html = n === 0 ? emptyHTML() : cart.map((it, i) => cartItemHTML(it, i)).join("");
+    const dCount = document.getElementById("cartCount");
+    const dItems = document.getElementById("cartItems");
+    const dLabel = document.getElementById("cartItemsCount");
+    if (dCount) { dCount.innerText = n; n > 0 ? dCount.classList.remove("hidden") : dCount.classList.add("hidden"); }
+    if (dItems) dItems.innerHTML = html;
+    if (dLabel) dLabel.innerText = n + " ta mahsulot";
+    const mItems = document.getElementById("mCartItems");
+    const mLabel = document.getElementById("mCartCount");
+    const badge  = document.getElementById("bnavCartBadge");
+    if (mItems) mItems.innerHTML = html;
+    if (mLabel) mLabel.innerText = n + " ta mahsulot";
+    if (badge)  { badge.innerText = n; badge.style.display = n > 0 ? "flex" : "none"; }
+}
+
+function addToCart(product) { cart.push(product); updateCart(); }
+function removeItem(i) { cart.splice(i, 1); updateCart(); }
+function filterSearch(val) {
+    const v = val.toLowerCase().trim();
+    document.querySelectorAll(".search-item").forEach(el => {
+        el.style.display = el.innerText.toLowerCase().includes(v) ? "block" : "none";
+    });
+}
+const searchInput = document.getElementById("searchInput");
+const searchInputM = document.getElementById("searchInputM");
+if (searchInput)  searchInput.addEventListener("input",  function(){ filterSearch(this.value); });
+if (searchInputM) searchInputM.addEventListener("input", function(){ filterSearch(this.value); });
+
+/* ─── CLOSE ON OUTSIDE CLICK ─── */
+document.addEventListener("click", e => {
+    if (regionMenu && regionBtn && !regionBtn.contains(e.target) && !regionMenu.contains(e.target))
+        regionMenu.classList.add("hidden");
+    if (regionMenuM && regionBtnM && !regionBtnM.contains(e.target) && !regionMenuM.contains(e.target))
+        regionMenuM && regionMenuM.classList.add("hidden");
+    if (catalogMenu && catalogBtn && !catalogBtn.contains(e.target) && !catalogMenu.contains(e.target)) {
+        catalogMenu.classList.add("hidden");
+        catalogIcon && catalogIcon.classList.remove("rotate-180");
+    }
+    if (cartMenu && cartBtn && !cartBtn.contains(e.target) && !cartMenu.contains(e.target))
+        cartMenu.classList.add("hidden");
+    if (mobileCartMenu && bnavCart && !bnavCart.contains(e.target) && !mobileCartMenu.contains(e.target))
+        mobileCartMenu.classList.add("hidden");
+});
+</script>
+
+{% endblock %}

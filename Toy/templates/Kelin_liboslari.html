@@ -1,0 +1,518 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <nav class="w-full h-auto lg:h-[70px] bg-white border border-[#ece4da] rounded-[18px] px-4 lg:px-6 py-4 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-soft">
+
+        <div class="flex items-center gap-4">
+
+            <a href="{% url 'home' %}" class="flex items-center gap-2">
+
+                <i class="fa-regular fa-heart text-[#d1a24c] text-[18px]"></i>
+
+                <h1 class="playfair text-[28px] font-bold">
+                    <span class="text-[#d1a24c]">To'y</span>
+                    <span class="text-[#2e2e2e]">Market</span>
+                </h1>
+
+            </a>
+
+<div class="relative">
+    <button id="catalogBtn"
+        class="h-[44px] px-5 rounded-[16px] bg-[#f8f2e7] text-[#c89d4d] font-semibold text-[14px] flex items-center gap-2 border border-[#efe5d3] hover:bg-[#f2e7d3] duration-300 shadow-sm">
+
+        <i class="fa-solid fa-bars-staggered"></i>
+
+        <span>Katalog</span>
+
+        <i id="catalogIcon"
+           class="fa-solid fa-chevron-down text-[10px] duration-300">
+        </i>
+
+    </button>
+    <div id="catalogMenu"
+         class="hidden absolute left-0 top-[60px] w-[1120px] bg-white rounded-[30px] border border-[#ece4da] shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-7 z-50">
+        <div class="flex items-center justify-between mb-7">
+
+            <div>
+                <h2 class="text-[26px] font-bold text-[#2d2d2d]">
+                    To'y Katalogi
+                </h2>
+
+                <p class="text-[14px] text-[#8a8177] mt-1">
+                    To'yingiz uchun barcha xizmatlar bir joyda
+                </p>
+            </div>
+
+            <button id="closeCatalog"
+                class="w-[40px] h-[40px] rounded-full bg-[#f8f4ee] hover:bg-[#efe7dc] duration-200">
+
+                <i class="fa-solid fa-xmark text-[#666]"></i>
+
+            </button>
+
+        </div>
+        <div class="grid grid-cols-4 gap-5">
+            <a href="#"
+               class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+
+                <img src="https://images.unsplash.com/photo-1525258946800-98cfd641d0de?q=80&w=400&auto=format&fit=crop"
+                     class="w-[78px] h-[78px] rounded-[20px] object-cover">
+
+                <div class="flex-1">
+
+                    <a href="{% url 'Kelin_liboslari' %}">
+                        <h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">
+                        Kelinlik liboslari
+                    </h3>
+                    </a>
+
+                    <p class="text-[13px] text-[#888] mt-1">
+                        Premium bridal kolleksiya
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+
+            </a>
+            <a href="#"
+               class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+
+                <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=400&auto=format&fit=crop"
+                     class="w-[78px] h-[78px] rounded-[20px] object-cover">
+
+                <div class="flex-1">
+
+                    <h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">
+                        Kiyov kostyumlari
+                    </h3>
+
+                    <p class="text-[13px] text-[#888] mt-1">
+                        Klassik va zamonaviy
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+
+            </a>
+            <a href="#"
+               class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=400&auto=format&fit=crop"
+                     class="w-[78px] h-[78px] rounded-[20px] object-cover">
+
+                <div class="flex-1">
+
+                    <h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">
+                        Mebel & Dekor
+                    </h3>
+
+                    <p class="text-[13px] text-[#888] mt-1">
+                        Stol, stul va dekorlar
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+
+            </a>
+            <a href="#"
+               class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+
+                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=400&auto=format&fit=crop"
+                     class="w-[78px] h-[78px] rounded-[20px] object-cover">
+
+                <div class="flex-1">
+
+                    <h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">
+                        Sarpo to'plami
+                    </h3>
+
+                    <p class="text-[13px] text-[#888] mt-1">
+                        Full wedding set
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+
+            </a>
+            <a href="#"
+               class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=400&auto=format&fit=crop"
+                     class="w-[78px] h-[78px] rounded-[20px] object-cover">
+
+                <div class="flex-1">
+
+                    <h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">
+                        To'y zallari
+                    </h3>
+
+                    <p class="text-[13px] text-[#888] mt-1">
+                        Eng zo'r wedding hall
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+
+            </a>
+            <a href="#"
+               class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400&auto=format&fit=crop"
+                     class="w-[78px] h-[78px] rounded-[20px] object-cover">
+
+                <div class="flex-1">
+
+                    <h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">
+                        Mashina bezak
+                    </h3>
+
+                    <p class="text-[13px] text-[#888] mt-1">
+                        Luxury car design
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+
+            </a>
+            <a href="#"
+               class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+
+                <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=400&auto=format&fit=crop"
+                     class="w-[78px] h-[78px] rounded-[20px] object-cover">
+
+                <div class="flex-1">
+
+                    <h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">
+                        Karnay-surnay
+                    </h3>
+
+                    <p class="text-[13px] text-[#888] mt-1">
+                        Milliy musiqa xizmatlari
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+
+            </a>
+            <a href="#"
+               class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+
+                <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=400&auto=format&fit=crop"
+                     class="w-[78px] h-[78px] rounded-[20px] object-cover">
+
+                <div class="flex-1">
+
+                    <h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">
+                        Foto & Video
+                    </h3>
+
+                    <p class="text-[13px] text-[#888] mt-1">
+                        Professional media team
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+        </div>
+
+        <div class="flex-1 max-w-[520px] relative">
+
+            <input id="searchInput" type="text"
+       placeholder="Mahsulot, kategoriya yoki do'kon qidirish..."
+       class="w-full h-[42px] rounded-[12px] border border-[#ebe4da] bg-[#faf8f5] px-4 pr-12 outline-none text-[14px]">
+       
+            <button class="absolute right-2 top-1/1 -translate-y-1/2 w-[32px] h-[32px] rounded-[10px] bg-white border border-[#ece4da] text-[#666]">
+                <i class="fa-solid fa-magnifying-glass text-[13px]"></i>
+            </button>
+
+        </div>
+
+        <div class="flex items-center gap-5 flex-wrap">
+
+<div class="relative">
+    <div id="regionBtn"
+        class="flex items-center gap-2 text-[14px] font-medium text-[#2d2d2d] cursor-pointer">
+        <i class="fa-solid fa-location-dot text-[#d1a24c]"></i>
+        <span id="selectedRegion">Toshkent</span>
+        <i class="fa-solid fa-chevron-down text-[10px]"></i>
+    </div>
+    <div id="regionMenu"
+        class="hidden absolute top-[35px] left-0 w-[180px] bg-white border border-[#ece4da] rounded-[12px] shadow-lg z-50">
+
+        <div class="py-2 text-[13px] text-[#2d2d2d]">
+
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Toshkent</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Andijon</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Namangan</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Farg‘ona</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Samarqand</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Buxoro</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Navoiy</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Qashqadaryo</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Surxondaryo</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Jizzax</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Sirdaryo</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Xorazm</div>
+            <div class="px-3 py-2 hover:bg-[#f7f4ef] cursor-pointer region-item">Qoraqalpog‘iston</div>
+
+        </div>
+    </div>
+</div>
+
+            <a href="#" class="flex items-center gap-2 text-[14px] font-medium text-[#2d2d2d]">
+                <i class="fa-regular fa-heart"></i>
+                <span>Sevimlilar</span>
+            </a>
+
+<div class="relative">
+    <button id="cartBtn"
+        class="text-[#2d2d2d] text-[18px] relative">
+
+        <i class="fa-solid fa-cart-shopping"></i>
+        <div id="cartCount"
+            class="absolute -top-2 -right-2 w-[18px] h-[18px] rounded-full bg-[#d1a24c] text-white text-[10px] font-bold flex items-center justify-center hidden">
+            0
+        </div>
+
+    </button>
+    <div id="cartMenu"
+        class="hidden absolute right-0 top-[45px] w-[320px] bg-white rounded-[20px] border border-[#ece4da] shadow-xl p-4 z-50">
+
+        <div class="flex items-center justify-between mb-4">
+
+            <h3 class="font-bold text-[18px] text-[#2d2d2d]">
+                Savatcha
+            </h3>
+
+            <span id="cartItemsCount"
+                class="text-[13px] text-[#888]">
+                0 ta mahsulot
+            </span>
+
+        </div>
+        <div id="cartItems"
+            class="space-y-3 max-h-[300px] overflow-auto">
+
+            <p class="text-[#888] text-[14px] text-center py-5">
+                Savatcha bo'sh
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+     {% if user.is_authenticated %}
+
+<div class="flex items-center gap-3">
+
+    <div class="w-[42px] h-[42px] rounded-full bg-[#d1a24c] text-white flex items-center justify-center font-bold">
+        {{ user.username|first|upper }}
+    </div>
+
+    <div class="hidden sm:block">
+
+        <p class="text-[13px] text-[#888]">
+            Xush kelibsiz
+        </p>
+
+        <h4 class="text-[14px] font-semibold text-[#2d2d2d]">
+            {{ user.username }}
+        </h4>
+        <a href="{% url 'logout' %}"
+           class="text-red-500 text-sm hover:underline">
+           Chiqish
+        </a>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<a href="{% url 'Kirish' %}">
+    <button class="h-[42px] px-5 rounded-[12px] bg-[#d1a24c] text-white font-semibold text-[14px]">
+        Kirish / Ro'yxatdan o'tish
+    </button>
+</a>
+
+{% endif %}
+
+        </div>
+
+    </nav>
+<!-- CATEGORY SECTION -->
+<div class="mt-8">
+
+    <div class="flex items-center justify-between mb-5">
+
+        <div>
+            <h2 class="text-[28px] font-bold text-[#2d2d2d]">
+                Kelinlik Kategoriyalari
+            </h2>
+
+            <p class="text-[14px] text-[#8a8177] mt-1">
+                Eng mashhur bridal kolleksiyalar
+            </p>
+        </div>
+
+        <a href="#"
+           class="text-[#d1a24c] font-semibold text-[14px] hover:underline">
+            Barchasi
+        </a>
+
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- CATEGORY 1 -->
+        <a href="#"
+           class="group bg-white border border-[#ece4da] rounded-[24px] overflow-hidden shadow-soft hover:-translate-y-1 duration-300">
+
+            <div class="overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1594552072238-b8a33785b261?q=80&w=900&auto=format&fit=crop"
+                     class="w-full h-[220px] object-cover group-hover:scale-105 duration-500">
+            </div>
+
+            <div class="p-5">
+
+                <div class="flex items-center justify-between">
+
+                    <h3 class="font-bold text-[18px] text-[#2d2d2d] group-hover:text-[#d1a24c] duration-300">
+                        Premium Liboslar
+                    </h3>
+
+                    <div class="w-[36px] h-[36px] rounded-full bg-[#f8f2e7] flex items-center justify-center text-[#d1a24c]">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+
+                </div>
+
+                <p class="text-[13px] text-[#888] mt-2">
+                    Luxury bridal kolleksiya
+                </p>
+
+            </div>
+
+        </a>
+
+        <!-- CATEGORY 2 -->
+        <a href="#"
+           class="group bg-white border border-[#ece4da] rounded-[24px] overflow-hidden shadow-soft hover:-translate-y-1 duration-300">
+
+            <div class="overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=900&auto=format&fit=crop"
+                     class="w-full h-[220px] object-cover group-hover:scale-105 duration-500">
+            </div>
+
+            <div class="p-5">
+
+                <div class="flex items-center justify-between">
+
+                    <h3 class="font-bold text-[18px] text-[#2d2d2d] group-hover:text-[#d1a24c] duration-300">
+                        Zamonaviy Kelinlik
+                    </h3>
+
+                    <div class="w-[36px] h-[36px] rounded-full bg-[#f8f2e7] flex items-center justify-center text-[#d1a24c]">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+
+                </div>
+
+                <p class="text-[13px] text-[#888] mt-2">
+                    Modern va elegant style
+                </p>
+
+            </div>
+
+        </a>
+
+        <!-- CATEGORY 3 -->
+        <a href="#"
+           class="group bg-white border border-[#ece4da] rounded-[24px] overflow-hidden shadow-soft hover:-translate-y-1 duration-300">
+
+            <div class="overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=900&auto=format&fit=crop"
+                     class="w-full h-[220px] object-cover group-hover:scale-105 duration-500">
+            </div>
+
+            <div class="p-5">
+
+                <div class="flex items-center justify-between">
+
+                    <h3 class="font-bold text-[18px] text-[#2d2d2d] group-hover:text-[#d1a24c] duration-300">
+                        Milliy Liboslar
+                    </h3>
+
+                    <div class="w-[36px] h-[36px] rounded-full bg-[#f8f2e7] flex items-center justify-center text-[#d1a24c]">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                </div>
+
+                <p class="text-[13px] text-[#888] mt-2">
+                    O'zbekona bridal style
+                </p>
+
+            </div>
+
+        </a>
+
+        <!-- CATEGORY 4 -->
+        <a href="#"
+           class="group bg-white border border-[#ece4da] rounded-[24px] overflow-hidden shadow-soft hover:-translate-y-1 duration-300">
+
+            <div class="overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=900&auto=format&fit=crop"
+                     class="w-full h-[220px] object-cover group-hover:scale-105 duration-500">
+            </div>
+
+            <div class="p-5">
+
+                <div class="flex items-center justify-between">
+
+                    <h3 class="font-bold text-[18px] text-[#2d2d2d] group-hover:text-[#d1a24c] duration-300">
+                        Exclusive Bridal
+                    </h3>
+
+                    <div class="w-[36px] h-[36px] rounded-full bg-[#f8f2e7] flex items-center justify-center text-[#d1a24c]">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                </div>
+
+                <p class="text-[13px] text-[#888] mt-2">
+                    Premium exclusive collection
+                </p>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
