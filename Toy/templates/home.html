@@ -220,7 +220,7 @@
                         </button>
                     </div>
                     <div class="grid grid-cols-4 gap-5">
-                        <a href="#" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
+                        <a href="{% url 'Kelin_liboslari' %}" class="group flex items-center gap-4 p-4 rounded-[24px] border border-transparent hover:border-[#f0e5d4] hover:bg-[#faf6ef] duration-300">
                             <img src="https://images.unsplash.com/photo-1525258946800-98cfd641d0de?q=80&w=400&auto=format&fit=crop" class="w-[78px] h-[78px] rounded-[20px] object-cover">
                             <div class="flex-1"><h3 class="font-semibold text-[#2d2d2d] group-hover:text-[#c89d4d] duration-200">Kelinlik liboslari</h3><p class="text-[13px] text-[#888] mt-1">Premium bridal kolleksiya</p></div>
                             <i class="fa-solid fa-chevron-right text-[#bbb] text-[12px]"></i>
@@ -336,8 +336,6 @@
             {% endif %}
         </div>
     </nav>
-
-    <!-- ── HERO ── -->
     <section class="w-full mt-0 md:mt-5 rounded-[0px] md:rounded-[22px] overflow-hidden relative bg-[#efe7de] shadow-soft">
         <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
             <div class="px-5 md:px-10 py-7 md:py-10">
@@ -380,67 +378,48 @@
             </button>
         </div>
         <div class="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-            {% for product in products %}
             <a href="{% url 'bos' %}">
                 <div class="search-item product-card bg-white rounded-[18px] overflow-hidden border border-[#ece4da] shadow-soft">
                     <div class="relative overflow-hidden">
-                        <img src="{{ product.image.url }}" class="product-img w-full h-[220px] object-cover duration-300">
-                        {% if product.top %}
+                        <img src="/Toy/static/img/Skrinshot 2026-05-30 065809.png" class="product-img w-full h-[220px] object-cover duration-300">
                         <div class="absolute top-3 left-3 bg-[#d1a24c] text-white text-[11px] font-bold px-3 py-1 rounded-full">TOP</div>
-                        {% endif %}
-                        {% if product.new %}
                         <div class="absolute top-3 left-3 bg-[#efb53f] text-white text-[11px] font-bold px-3 py-1 rounded-full">NEW</div>
-                        {% endif %}
                         <button class="absolute top-3 right-3 w-[34px] h-[34px] rounded-full bg-white/90 text-[#444]">
                             <i class="fa-regular fa-heart"></i>
                         </button>
                     </div>
                     <div class="product-padding p-4">
-                        <h3 class="product-title font-semibold text-[16px] text-[#2d2d2d] line-clamp-1">{{ product.title }}</h3>
-                        <p class="product-price mt-2 text-[#d1a24c] font-bold text-[18px]">{{ product.price }}</p>
+                        <h3 class="product-title font-semibold text-[16px] text-[#2d2d2d] line-clamp-1">yangi</h3>
+                        <p class="product-price mt-2 text-[#d1a24c] font-bold text-[18px]">30000</p>
                         <div class="product-meta mt-3 flex items-center justify-between text-[13px] text-[#777]">
-                            <span class="truncate max-w-[110px]">Sotuvchi: {{ product.seller }}</span>
+                            <span class="truncate max-w-[110px]">Sotuvchi: Admin</span>
                             <div class="flex items-center gap-1 text-[#d1a24c]">
                                 <i class="fa-solid fa-star text-[11px]"></i>
-                                <span>{{ product.rating }}</span>
+                                <span>4.5</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </a>
-            {% endfor %}
         </div>
     </section>
-    <div class="features-grid grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
-        <div class="feature-card bg-white border border-[#ece4da] rounded-[18px] p-5 flex items-start gap-4 shadow-soft">
-            <div class="feature-icon w-[48px] h-[48px] rounded-[14px] bg-[#f7f1e5] flex items-center justify-center text-[#c89d4d] text-[20px] flex-shrink-0"><i class="fa-solid fa-shield-heart"></i></div>
-            <div><h4 class="feature-title font-semibold text-[#2d2d2d]">Ishonchli sotuvchilar</h4><p class="feature-desc text-[13px] text-[#777] mt-1">Barcha sotuvchilar tekshirilgan</p></div>
-        </div>
-        <div class="feature-card bg-white border border-[#ece4da] rounded-[18px] p-5 flex items-start gap-4 shadow-soft">
-            <div class="feature-icon w-[48px] h-[48px] rounded-[14px] bg-[#f7f1e5] flex items-center justify-center text-[#c89d4d] text-[20px] flex-shrink-0"><i class="fa-solid fa-wallet"></i></div>
-            <div><h4 class="feature-title font-semibold text-[#2d2d2d]">Xavfsiz to'lov</h4><p class="feature-desc text-[13px] text-[#777] mt-1">Himoyalangan to'lov tizimi</p></div>
-        </div>
-        <div class="feature-card bg-white border border-[#ece4da] rounded-[18px] p-5 flex items-start gap-4 shadow-soft">
-            <div class="feature-icon w-[48px] h-[48px] rounded-[14px] bg-[#f7f1e5] flex items-center justify-center text-[#c89d4d] text-[20px] flex-shrink-0"><i class="fa-solid fa-headset"></i></div>
-            <div><h4 class="feature-title font-semibold text-[#2d2d2d]">24/7 qo'llab-quvvatlash</h4><p class="feature-desc text-[13px] text-[#777] mt-1">Har doim siz bilan aloqadamiz</p></div>
-        </div>
-        <div class="feature-card bg-white border border-[#ece4da] rounded-[18px] p-5 flex items-start gap-4 shadow-soft">
-            <div class="feature-icon w-[48px] h-[48px] rounded-[14px] bg-[#f7f1e5] flex items-center justify-center text-[#c89d4d] text-[20px] flex-shrink-0"><i class="fa-solid fa-truck-fast"></i></div>
-            <div><h4 class="feature-title font-semibold text-[#2d2d2d]">Tez yetkazib berish</h4><p class="feature-desc text-[13px] text-[#777] mt-1">Qulay va tez yetkazish xizmati</p></div>
-        </div>
-    </div>
+
 
 </div><!-- /main wrapper -->
 
 <nav class="bottom-nav">
-    <div class="bnav-item active" id="bnavHome">
+<a href="{% url 'home' %}">
+        <div class="bnav-item active" id="bnavHome">
         <i class="fa-solid fa-house"></i>
         <span>Asosiy</span>
     </div>
-    <div class="bnav-item" id="bnavCatalog">
+</a>
+<a href="{% url 'home' %}">
+        <div class="bnav-item" id="bnavCatalog">
         <i class="fa-solid fa-bars-staggered"></i>
         <span>Katalog</span>
     </div>
+</a>
     <a href="#" class="bnav-item">
         <i class="fa-regular fa-heart"></i>
         <span>Sevimlilar</span>
